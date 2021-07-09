@@ -13,3 +13,14 @@ app.get("/", (req, res) => {
 app.listen(port, () => {
   console.log("SERVER RUNNING" + port);
 });
+
+process.on("SIGTERM", () => {
+  console.info("SIGTERM signal received");
+  console.log("Closing http server.");
+  server.close(async () => {
+    console.log("Http server closed.");
+    // handle any necessary disconnect logic such as closing a DB connection
+    console.log("Connections closed.");
+    process.exit();
+  });
+});
